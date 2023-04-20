@@ -87,7 +87,7 @@ def cloud_copy(img, cloud):
 
     cloudy = (cloud_crop * (2 ** 13)) * cloud_crop + (1 - cloud_crop) * img
 
-    return cloudy
+    return cloudy, cloud_crop
 
 
 def convert_float32_to_uint8(img):

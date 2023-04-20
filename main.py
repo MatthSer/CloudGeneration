@@ -14,7 +14,7 @@ def main(input, res, octave):
     u = tifffile.imread(input)
     cloud_resolution = CloudPerlin.cloud_resolution(u)
     cloud, mask = CloudPerlin.cloud_generation((cloud_resolution, cloud_resolution), (res, res), octave)
-    cloudy = CloudPerlin.cloud_copy(u, cloud)
+    cloudy, cloud_crop = CloudPerlin.cloud_copy(u, cloud)
 
     if not os.path.exists('output/'):
         os.mkdir('output/')
@@ -25,7 +25,7 @@ def main(input, res, octave):
 
     # Save output
     tifffile.imwrite('output/background.png', u_8bits)
-    tifffile.imwrite('output/cloud.png', (cloud * 255).astype(np.uint8))
+    tifffile.imwrite('output/cloud.png', (cloud_crop * 255).astype(np.uint8))
     tifffile.imwrite('output/cloudy.png', cloudy_8bits)
 
 
