@@ -85,7 +85,7 @@ def cloud_copy(img, cloud):
     # noise = np.random.normal(0, 0.01, cloud.shape)
     # cloud = cloud + noise
 
-    cloudy = (cloud_crop * (2 ** 13)) * cloud_crop + (1 - cloud_crop) * img
+    cloudy = (cloud_crop * (2 ** 12)) * cloud_crop + (1 - cloud_crop) * img
 
     return cloudy, cloud_crop
 
