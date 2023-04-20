@@ -85,3 +85,17 @@ def cloud_copy(img, cloud):
     cloudy = (cloud * (2 ** 13)) * cloud + (1 - cloud) * img
 
     return cloudy
+
+def convert_float32_to_uint8(img):
+
+    if len(img.shape) > 2:
+        rescale = []
+        for i in range(img.shape[2]):
+            channel = img[:, :, i] / np.max(img[:, :, i]) * 255
+            rescale.append(channel)
+        rescale = np.stack(rescale, axis=2)
+    else:
+        rescale = img / np.max(img) * 255
+        rescale = rescale[:, :]
+
+    return rescale.astype(np.uint8)
