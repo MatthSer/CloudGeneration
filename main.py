@@ -20,6 +20,7 @@ def main(input, res, octave):
         os.mkdir('output/')
 
     tifffile.imwrite('output/cloud.png', cloud)
+    tifffile.imwrite('output/background.png', u.astype(np.uint16))
     tifffile.imwrite('output/cloudy.png', cloudy.astype(np.uint16))
 
 
