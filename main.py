@@ -12,8 +12,8 @@ from CloudPerlin import CloudPerlin
 
 def main(input, res, octave):
     u = tifffile.imread(input)
-
-    cloud, mask = CloudPerlin.cloud_generation((1024, 1024), (res, res), octave)
+    cloud_resolution = CloudPerlin.cloud_resolution(u)
+    cloud, mask = CloudPerlin.cloud_generation((cloud_resolution, cloud_resolution), (res, res), octave)
     cloudy = CloudPerlin.cloud_copy(u, cloud)
 
     if not os.path.exists('output/'):

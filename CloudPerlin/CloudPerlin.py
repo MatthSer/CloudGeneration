@@ -78,16 +78,19 @@ def cloud_copy(img, cloud):
     cloud_red = translation_mask(cloud, 10, 10, cloud.shape)
     cloud = np.stack([cloud_red, cloud_green, cloud_blue], axis=2)
 
+    # Crop cloud to fit image size
+    cloud_crop = cloud[50:(50+img.shape[0]), 50:50+img.shape[1]]
+
     # noise
     # noise = np.random.normal(0, 0.01, cloud.shape)
     # cloud = cloud + noise
 
-    cloudy = (cloud * (2 ** 13)) * cloud + (1 - cloud) * img
+    cloudy = (cloud_crop * (2 ** 13)) * cloud_crop + (1 - cloud_crop) * img
 
     return cloudy
 
-def convert_float32_to_uint8(img):
 
+def convert_float32_to_uint8(img):
     if len(img.shape) > 2:
         rescale = []
         for i in range(img.shape[2]):
@@ -99,3 +102,12 @@ def convert_float32_to_uint8(img):
         rescale = rescale[:, :]
 
     return rescale.astype(np.uint8)
+
+
+def cloud_resolution(img):
+    shape = np.max(img.shape)
+    powers = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+
+    for power in powers:
+        if power > shape:
+            return power
