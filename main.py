@@ -19,7 +19,7 @@ def main(input, res, octave):
     if not os.path.exists('output/'):
         os.mkdir('output/')
 
-    tifffile.imwrite('output/cloud.png', cloud)
+    tifffile.imwrite('output/cloud.png', cloud*255)
     tifffile.imwrite('output/background.png', u.astype(np.uint16))
     tifffile.imwrite('output/cloudy.png', cloudy.astype(np.uint16))
 
