@@ -18,15 +18,22 @@ def main(input, res, octave):
 
     if not os.path.exists('output/'):
         os.mkdir('output/')
+    if not os.path.exists('downloads/'):
+        os.mkdir('downloads/')
 
     # Rescale image on 8 bits for visualization
     u_8bits = CloudPerlin.convert_float32_to_uint8(u)
     cloudy_8bits = CloudPerlin.convert_float32_to_uint8(cloudy)
 
-    # Save output
+    # Save display outputs
     tifffile.imwrite('output/background.png', u_8bits)
     tifffile.imwrite('output/cloud.png', (cloud_crop * 255).astype(np.uint8))
     tifffile.imwrite('output/cloudy.png', cloudy_8bits)
+
+    # Save download outputs
+    tifffile.imwrite('downloads/background.tif', u)
+    tifffile.imwrite('downloads/cloud.tif', cloud_crop)
+    tifffile.imwrite('downloads/cloudy.tif', cloudy.astype(np.uint16))
 
 
 if __name__ == "__main__":
