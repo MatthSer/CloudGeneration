@@ -1,7 +1,6 @@
 import os
-import imageio as iio
+import iio
 import numpy as np
-import tifffile
 from CloudPerlin import CloudPerlin
 
 
@@ -11,7 +10,7 @@ from CloudPerlin import CloudPerlin
 
 
 def main(input, res, octave):
-    u = tifffile.imread(input)
+    u = iio.read(input)
     cloud_resolution = CloudPerlin.cloud_resolution(u)
     cloud, mask = CloudPerlin.cloud_generation((cloud_resolution, cloud_resolution), (res, res), octave)
     cloudy, cloud_crop = CloudPerlin.cloud_copy(u, cloud)
@@ -26,14 +25,14 @@ def main(input, res, octave):
     cloudy_8bits = CloudPerlin.convert_float32_to_uint8(cloudy)
 
     # Save display outputs
-    tifffile.imwrite('output/background.png', u_8bits)
-    tifffile.imwrite('output/cloud.png', (cloud_crop * 255).astype(np.uint8))
-    tifffile.imwrite('output/cloudy.png', cloudy_8bits)
+    iio.write('output/background.png', u_8bits)
+    iio.write('output/cloud.png', (cloud_crop * 255).astype(np.uint8))
+    iio.write('output/cloudy.png', cloudy_8bits)
 
     # Save download outputs
-    tifffile.imwrite('downloads/background.tif', u)
-    tifffile.imwrite('downloads/cloud.tif', cloud_crop)
-    tifffile.imwrite('downloads/cloudy.tif', cloudy.astype(np.uint16))
+    iio.write('downloads/background.tif', u)
+    iio.write('downloads/cloud.tif', cloud_crop)
+    iio.write('downloads/cloudy.tif', cloudy.astype(np.uint16))
 
 
 if __name__ == "__main__":
